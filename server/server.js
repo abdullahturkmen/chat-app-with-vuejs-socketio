@@ -23,8 +23,14 @@ io.on('connection', socket => {
   });
 
   socket.on('disconnect', () => {
-    const index = users.indexOf(socket.id);
-    users.splice(index, 1);
-    io.emit('users', users);
+    
+  const index = users.findIndex((element, index) => {
+      if(element.id === socket.id){
+        users.splice(index, 1);
+        io.emit('users', users);
+        return true;
+      }
+      
+  });
   });
 });
