@@ -13,12 +13,17 @@ io.on('connection', socket => {
       id: socket.id,
       name
     });
+    const username = name;
+    io.emit('username', username);
     io.emit('users', users);
     io.emit('messages', messages);
   });
 
   socket.on('new_message', (message) => {
-    messages.push("<b>" + message.name + ":</b> " + message.message);
+    messages.push({
+      name: message.name,
+      message: message.message
+    });
     io.emit('messages', messages);
   });
 

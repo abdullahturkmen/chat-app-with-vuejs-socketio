@@ -16,8 +16,8 @@
         <input type="submit">
       </form>
       Mesajlar
-      <ul>
-        <li v-bind:key="message" v-for="message in messages" v-html="message"></li>
+      <ul class="messages">
+        <li v-bind:key="message.name" v-for="message in messages" :class="{'my-messages': message.name == username}"><b>{{ message.name }} : </b> {{ message.message }}</li>
       </ul>
     </div>
   </div>
@@ -31,7 +31,8 @@ export default {
       name: "",
       users: [],
       message: "",
-      messages: []
+      messages: [],
+      username: "",
     }
   },
   sockets: {
@@ -40,6 +41,9 @@ export default {
     },
     messages(data) {
       this.messages = data;
+    },
+    username(data) {
+      this.username = this.name;
     }
   },
   methods: {
@@ -57,3 +61,18 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+ul.messages li{
+  display: block;
+  width: calc( 100% - 30px );
+  border-bottom: 1px solid gray;
+  padding: 15px;
+}
+
+ul.messages li.my-messages{
+  text-align: right;
+}
+
+</style>
